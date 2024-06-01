@@ -69,7 +69,6 @@ void MainWindow::on_rozpocznij_clicked()
 {
     ui->rozpocznij->hide();
     ui->doobleheader->hide();
-    ui->jakgrac->hide();
     ui->umiescobiektylabel->show();
     ui->leftlist->show();
     ui->rightlist->show();
@@ -89,7 +88,7 @@ void MainWindow::on_rozpocznij_clicked()
 void MainWindow::on_jakgrac_clicked()
 {
     ui->rozpocznij->hide();
-    ui->jakgrac->hide();
+
 }
 
 MainWindow::~MainWindow()
@@ -114,7 +113,7 @@ void MainWindow::on_dodajdoA_clicked()
 
             QPixmap scaledPixmap = pixmap.scaled(ui->dlugosc->value(), ui->szerokosc->value(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-            // Tworzenie widgetu zawierającego obrazek i przycisk "Usuń"
+
             QWidget *widget = new QWidget;
             QHBoxLayout *layout = new QHBoxLayout;
             QLabel *label = new QLabel;
@@ -128,17 +127,17 @@ void MainWindow::on_dodajdoA_clicked()
             layout->addWidget(labeltext);
             widget->setLayout(layout);
 
-            // Tworzenie elementu listy
+
             QListWidgetItem *item = new QListWidgetItem;
-            item->setSizeHint(widget->sizeHint()); // Ustawienie preferowanego rozmiaru elementu
-            ui->leftlist->addItem(item); // Dodanie elementu do listy
+            item->setSizeHint(widget->sizeHint());
+            ui->leftlist->addItem(item);
             ui->leftlist->setItemWidget(item, widget);
 
             connect(button, &QPushButton::clicked, [this, item]() {
-                // Pobranie indeksu elementu do usunięcia
+
                 int row = ui->leftlist->row(item);
 
-                // Usunięcie elementu z listy
+
                 delete item;
                 imgcounter_A--;
 
@@ -172,19 +171,19 @@ void MainWindow::on_generujpdf_clicked()
         return;
     }
 
-    // Utworzenie obiektu QPdfWriter
+
     QPdfWriter pdfWriter(fileName);
     pdfWriter.setPageSize(QPageSize(QPageSize::A4));
     pdfWriter.setResolution(300);
 
     QPainter painter(&pdfWriter);
 
-    // Konfiguracja marginesów i rozmiarów
-    int margin = 50; // Marginesy na stronie
-    int spacing = 20; // Odstęp między kartami
-    int imageWidth = ui->dlugosc->value();   // Szerokość obrazu
-    int imageHeight = ui->szerokosc->value();    // Wysokość obrazu
-    int itemsPerRow;  // Liczba elementów w rzędzie
+
+    int margin = 50;
+    int spacing = 20;
+    int imageWidth = ui->dlugosc->value();
+    int imageHeight = ui->szerokosc->value();
+    int itemsPerRow;
     int currentX = margin;
     int currentY = margin;
 
@@ -211,31 +210,31 @@ void MainWindow::on_generujpdf_clicked()
                 itemsPerRow = 3;
                 cardHeight = 3 * imageHeight;
             } else {
-                itemsPerRow = 4; // Można dostosować dla większej liczby elementów
+                itemsPerRow = 4;
                 cardHeight = 4 * imageHeight;
             }
 
-            // Obliczanie rozmiaru prostokąta dla karty
+
             int cardWidth = itemsPerRow * imageWidth;
 
 
 
-            // Sprawdzanie, czy bieżący prostokąt zmieści się w poziomie
+
             if (currentX + cardWidth  + margin> pageWidth) {
-                // Jeśli się nie zmieści, przejdź do nowego wiersza
+
                 currentX = margin;
                 currentY += cardHeight;
 
-                // Sprawdzanie, czy bieżący prostokąt zmieści się w pionie
+
                 if (currentY + cardHeight + margin > pageHeight) {
-                    // Jeśli się nie zmieści, przejdź do następnej strony
+
                     pdfWriter.newPage();
                     currentX = margin;
                     currentY = margin;
                 }
             }
 
-            // Rysowanie prostokąta dla karty
+
             for (int j = 0; j < numItems; ++j) {
                 int row = j / itemsPerRow;
                 int col = j % itemsPerRow;
@@ -244,7 +243,7 @@ void MainWindow::on_generujpdf_clicked()
                 painter.drawPixmap(x, y, card[j]->getPixmap()->scaled(imageWidth, imageHeight, Qt::KeepAspectRatio));
             }
 
-            // Przejście do następnej kolumny z dodanym odstępem
+
             currentX += cardWidth + spacing;
         }
     }
@@ -329,7 +328,7 @@ QVector<QVector<QVector<ImageItem*>>>  MainWindow::GENERATE(int imagesoncard){
                             }
                             if (j == card.size()-1){
                                 B.removeAt(i);
-                                //break;
+
                             }
 
                         }
@@ -447,7 +446,7 @@ void MainWindow::on_dodajdoB_clicked()
 
             QPixmap scaledPixmap = pixmap.scaled(ui->dlugosc->value(), ui->szerokosc->value(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-            // Tworzenie widgetu zawierającego obrazek i przycisk "Usuń"
+
             QWidget *widget = new QWidget;
             QHBoxLayout *layout = new QHBoxLayout;
             QLabel *label = new QLabel;
@@ -463,15 +462,15 @@ void MainWindow::on_dodajdoB_clicked()
 
             // Tworzenie elementu listy
             QListWidgetItem *item = new QListWidgetItem;
-            item->setSizeHint(widget->sizeHint()); // Ustawienie preferowanego rozmiaru elementu
-            ui->rightlist->addItem(item); // Dodanie elementu do listy
+            item->setSizeHint(widget->sizeHint());
+            ui->rightlist->addItem(item);
             ui->rightlist->setItemWidget(item, widget);
 
             connect(button, &QPushButton::clicked, [this, item]() {
-                // Pobranie indeksu elementu do usunięcia
+
                 int row = ui->rightlist->row(item);
 
-                // Usunięcie elementu z listy
+
                 delete item;
                 imgcounter_B--;
 
@@ -482,7 +481,7 @@ void MainWindow::on_dodajdoB_clicked()
                     QList<QLabel *> all = currentWidget->findChildren<QLabel *>();
                     (all.at(1))->setText(QString("Obrazek %1").arg(i + 1));
 
-                    //currentLabel->setText(QString("Obrazek %1").arg(i + 1));
+
 
                 }
             });
