@@ -7,7 +7,7 @@
 ## Jak korzystać z programu?
 
 1. **Najpierw należy nacisnąć rozpocznij.**
-2. **Wybierz wymiary obrazów** (tyczy się to ich wszystkich, nie powinieneś później tego zmieniać)!
+2. **Wybierz wymiary obrazów** ***(tyczy się to ich wszystkich, nie powinieneś później tego zmieniać)!***
 3. **Dodaj obrazy tak, aby numery po prawej i po lewej się zgadzały**. Możesz przesuwać i usuwać obrazy, aby dostosować numerację.
 4. **Wybierz suwakiem, ile chcesz elementów na jednej karcie** (polecam 4, 6 lub 9, jeśli mamy czas poczekać).
 5. **Zapisz obraz**. Jeśli jest pusty, oznacza to, że nie istnieje żadna konfiguracja przy zadanych warunkach. Spróbuj dodać więcej obrazków lub zmniejszyć liczbę obrazków na jednej karcie.
