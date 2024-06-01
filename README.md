@@ -1,4 +1,4 @@
-# Game, polish version below
+# Double-like card generator, polish version below
 
 **The game involves placing one group of cards on the table and distributing the other among players.** If a player finds a match with their card and a card from the common pile, they take both. The player can declare that there is **no match**, in which case other players check if they are correct. If so, they take the card, but if not, they lose a life. **For each card in set A, there is at most one match for each card in set B!**
 
