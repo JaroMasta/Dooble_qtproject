@@ -18,6 +18,7 @@
 - You can also **remove cards that do not have a match for each card in the opposite group.**
 - The algorithm's performance can be improved **by using data structures other than QVector (QMap, QSet, QHash).**
 - You can add **an option to add text instead of images.**
+- You can implement the algorithm using dynamic programming paradigm which will significantly improve time performance 
 
 
 
@@ -44,3 +45,4 @@
 - Można także **usunąć karty, które nie mają dopasowania dla każdej karty z grupy przeciwnej.**
 - Można przyspieszyć działanie algorytmu, **wykorzystując inne struktury danych** niż QVector (QMap, QSet, QHash).
 - Można dodać **opcję dodawania tekstu zamiast obrazów.**
+- Używając programowania dynamicznego można znacznie zwiększyć prędkość algorytmu
