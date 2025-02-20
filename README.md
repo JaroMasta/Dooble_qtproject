@@ -1,4 +1,4 @@
-# Double-like card generator, polish version below
+# Double-like card (Fano plane graph) generator, polish version below
 
 **The game involves placing one group of cards on the table and distributing the other among players.** If a player finds a match with their card and a card from the common pile, they take both. The player can declare that there is **no match**, in which case other players check if they are correct. If so, they take the card, but if not, they lose a life. **For each card in set A, there is at most one match for each card in set B!**
 
@@ -13,7 +13,7 @@
 5. **Save the image**. If it is empty, it means that there is no configuration for the given conditions. Try adding more images or decreasing the number of images on one card.
 
 ## TO DO
-
+- Disect generation of mathematical abstraction (Fano-plane graphs) from card construction, you dont't need to run the algorithm every time you want to create cards!
 - By making a small change in the code or adding some code, different game modes can be created. For example, **one group of cards can be significantly larger than the other.**
 - You can also **remove cards that do not have a match for each card in the opposite group.**
 - The algorithm's performance can be improved **by using data structures other than QVector (QMap, QSet, QHash).**
