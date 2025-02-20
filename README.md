@@ -40,7 +40,7 @@
 5. **Zapisz obraz**. Jeśli jest pusty, oznacza to, że nie istnieje żadna konfiguracja przy zadanych warunkach. Spróbuj dodać więcej obrazków lub zmniejszyć liczbę obrazków na jednej karcie.
 
 ## TO DO
-
+- Disect generation of mathematical abstraction (Fano-plane graphs) from card construction, you dont't need to run the algorithm every time you want to create cards!
 - W grze można za pomocą niewielkiej zmiany kodu lub dodania kodu stworzyć różne tryby. Na przykład **jedna grupa kart może być znacznie liczniejsza niż druga.**
 - Można także **usunąć karty, które nie mają dopasowania dla każdej karty z grupy przeciwnej.**
 - Można przyspieszyć działanie algorytmu, **wykorzystując inne struktury danych** niż QVector (QMap, QSet, QHash).
