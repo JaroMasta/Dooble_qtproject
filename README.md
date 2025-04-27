@@ -5,7 +5,7 @@
 **I recommend using 10 to 15 elements and 4-element cards for the best algorithm performance.**
 
 ## How to use the program?
-
+![Screenshot of main page of an app](images/qtApplicationScreenshot.png)
 1. **First, press start.** (rozpocznij)
 2. **Choose the dimensions of the images** ***(this applies to all of them, you shouldn't change it later)***! (it's set to 150x150 by default)
 3. **Add images so that the numbers on the right and left match.** You can move and remove images to adjust the numbering.
@@ -32,7 +32,7 @@
 **Zalecam korzystanie z 10 do 15 elementów i kart 4-elementowych. Wówczas algorytm działa najlepiej.**
 
 ## Jak korzystać z programu?
-
+![Screenshot of main page of an app](images/qtApplicationScreenshot.png)
 1. **Najpierw należy nacisnąć rozpocznij.**
 2. **Wybierz wymiary obrazów** ***(tyczy się to ich wszystkich, nie powinieneś później tego zmieniać)!***
 3. **Dodaj obrazy tak, aby numery po prawej i po lewej się zgadzały**. Możesz przesuwać i usuwać obrazy, aby dostosować numerację.
