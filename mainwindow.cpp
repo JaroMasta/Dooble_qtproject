@@ -162,7 +162,7 @@ void MainWindow::on_dodajdoA_clicked()
 
 
 void MainWindow::on_generujpdf_clicked()
-{
+{   //Wywołanie głównej funkcji generującej
     QVector<QVector<QVector<ImageItem*>>> chosen_vector = GENERATE(ui->ile_elem->value());
 
     // Wybór miejsca zapisu pliku PDF
@@ -253,7 +253,8 @@ void MainWindow::on_generujpdf_clicked()
 
 
 
-QVector<QVector<QVector<ImageItem*>>>  MainWindow::GENERATE(int imagesoncard){
+QVector<QVector<QVector<ImageItem*>>> MainWindow::GENERATE(int imagesoncard) {
+    // Zapisz wszystkie obrazki z lewego listWidgeta do wektora 'images'
     for (int i = 0; i < ui->leftlist->count(); ++i) {
         QListWidgetItem *currentItem = ui->leftlist->item(i);
         QWidget *currentWidget = ui->leftlist->itemWidget(currentItem);
@@ -262,6 +263,8 @@ QVector<QVector<QVector<ImageItem*>>>  MainWindow::GENERATE(int imagesoncard){
         ImageItem* img = new ImageItem(pixmap, i);
         images.append(img);
     }
+
+    // Zapisz wszystkie obrazki z prawego listWidgeta do wektora 'images_B'
     for (int i = 0; i < ui->rightlist->count(); ++i) {
         QListWidgetItem *currentItem = ui->rightlist->item(i);
         QWidget *currentWidget = ui->rightlist->itemWidget(currentItem);
@@ -271,8 +274,7 @@ QVector<QVector<QVector<ImageItem*>>>  MainWindow::GENERATE(int imagesoncard){
         images_B.append(img);
     }
 
-
-
+    // Generuj wszystkie możliwe grupy obrazków o rozmiarze 'imagesoncard'
     QVector<QVector<ImageItem*>> A = generateAllGroups(images, imagesoncard);
     QVector<QVector<ImageItem*>> B = generateAllGroups(images_B, imagesoncard);
 
@@ -282,155 +284,174 @@ QVector<QVector<QVector<ImageItem*>>>  MainWindow::GENERATE(int imagesoncard){
     QVector<QVector<ImageItem*>> Excluded_B;
     int count;
 
+    // Główna pętla: wybieraj karty dopóki są dostępne
+    while (!A.empty()) {
+        count = 0;
+        int stop_loop_1 = A.size();
 
-    while (!A.empty()){
-            count = 0;
-        int stop_loop_1;
-            stop_loop_1 = A.size();
-        while(count <= stop_loop_1){
-                QVector<ImageItem*> card = select_least_counted_objects(A);
-            if (card.size()==0){
-                    if (A_chosen.size() > B_chosen.size()){
-                        A_chosen.pop_front();
-                    }
-                    if (A_chosen.size() < B_chosen.size()){
-                        B_chosen.pop_front();
-                    }
-                    return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen};
-            }
-            bool match_touples = false;
-                QVector<QVector<ImageItem*>> touples = generateAllGroups(card, 2);
-                for (int i = 0; i< touples.size(); ++i){
-                    for (int j = 0; j< Excluded_B.size(); ++j){
-                        if (touples[i][0]->get_number()==Excluded_B[j][0]->get_number() && touples[i][1]->get_number()==Excluded_B[j][1]->get_number()){
-                            match_touples = true;
-                            break;
-                        }
-                    }
-                    if (match_touples)
-                        break;
-                }
+        // Szukaj odpowiedniej karty w A
+        while (count <= stop_loop_1) {
+            QVector<ImageItem*> card = select_least_counted_objects(A);
 
-                if (match_touples == false){
-                    for (auto& image : card){
-                        (*image)++;
-                    }
-
-                    A_chosen.append(card);
-                    for (auto& touple : touples){
-                        Excluded_A.append(touple);
-                    }
-                    for (int i = 0; i<B.size(); ++i){
-                        QVector<ImageItem*>& result = B[i];
-                        for (int j = 0; j< card.size(); ++j ){
-                            if (card[j]->get_number() != result[j]->get_number()){
-                                break;
-                            }
-                            if (j == card.size()-1){
-                                B.removeAt(i);
-
-                            }
-
-                        }
-
-                    }
-                    break;
-
-
-                    }
-
-                count++;
-        }
-            if (count == stop_loop_1) {
-            if (A_chosen.size() > B_chosen.size()){
-                A_chosen.pop_front();
-            }
-            if (A_chosen.size() < B_chosen.size()){
-                B_chosen.pop_front();
-            }
-                return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen};
-            }
-            int count2 = 0;
-            int stop_loop_2;
-            stop_loop_2 = B.size();
-            while (count2 <= stop_loop_2){
-                QVector<ImageItem*> cardB = select_least_counted_objects(B);
-                if (cardB.size()==0){
-                    if (A_chosen.size() > B_chosen.size()){
-                        A_chosen.pop_front();
-                    }
-                    if (A_chosen.size() < B_chosen.size()){
-                        B_chosen.pop_front();
-                    }
-                    return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen};
-                }
-                bool match_touples_2 = false;
-                QVector<QVector<ImageItem*>> touplesB = generateAllGroups(cardB, 2);
-                for (int i = 0; i< touplesB.size(); ++i){
-                    for (int j = 0; j< Excluded_A.size(); ++j){
-                        if (touplesB[i][0]->get_number()==Excluded_A[j][0]->get_number() && touplesB[i][1]->get_number()==Excluded_A[j][1]->get_number()){
-                            match_touples_2 = true;
-                            break;
-                        }
-                    }
-                    if (match_touples_2)
-                        break;
-                }
-
-                if (match_touples_2 == false){
-                    for (auto& image : cardB){
-                        (*image)++;
-                    }
-                    B_chosen.append(cardB);
-                    for (auto& touple : touplesB){ //mozna zwiekszyc wydajnosc sprawdzajac czy touples juz sa
-                        Excluded_B.append(touple);
-                    }
-                    for (int i = 0; i<A.size(); ++i){
-                        QVector<ImageItem*>& result = A[i];
-                        for (int j = 0; j< cardB.size(); ++j ){
-                            if (cardB[j]->get_number() != result[j]->get_number()){
-                                break;
-                            }
-                            if (j == cardB.size()-1){
-                                A.removeAt(i);
-                                break;
-                            }
-
-                        }
-
-                    }
-                    break;
-
-                }
-
-                count2++;
-            }
-            if (count2 == stop_loop_2) {
-
-                if (A_chosen.size() > B_chosen.size()){
+            // Jeśli nie udało się znaleźć karty, kończ i zwróć dotychczas wybrane karty
+            if (card.size() == 0) {
+                if (A_chosen.size() > B_chosen.size()) {
                     A_chosen.pop_front();
                 }
-                if (A_chosen.size() < B_chosen.size()){
+                if (A_chosen.size() < B_chosen.size()) {
                     B_chosen.pop_front();
                 }
-                return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen}; // TUTAJ ZAKOŃCZENIE ALGORYTMU POPRAWIĆ
+                return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen};
             }
 
+            // Sprawdź, czy wybrana karta nie tworzy niedozwolonych par z wykluczonymi kartami z B
+            bool match_touples = false;
+            QVector<QVector<ImageItem*>> touples = generateAllGroups(card, 2);
+            for (int i = 0; i < touples.size(); ++i) {
+                for (int j = 0; j < Excluded_B.size(); ++j) {
+                    if (touples[i][0]->get_number() == Excluded_B[j][0]->get_number() &&
+                        touples[i][1]->get_number() == Excluded_B[j][1]->get_number()) {
+                        match_touples = true;
+                        break;
+                    }
+                }
+                if (match_touples)
+                    break;
+            }
 
+            // Jeśli karta jest poprawna
+            if (!match_touples) {
+                // Zwiększ liczniki użycia obrazków
+                for (auto& image : card) {
+                    (*image)++;
+                }
 
+                // Dodaj kartę do wybranych z A
+                A_chosen.append(card);
 
+                // Dodaj wygenerowane pary do wykluczonych z A
+                for (auto& touple : touples) {
+                    Excluded_A.append(touple);
+                }
 
+                // Usuń z B kartę odpowiadającą wybranej karcie z A
+                for (int i = 0; i < B.size(); ++i) {
+                    QVector<ImageItem*>& result = B[i];
+                    for (int j = 0; j < card.size(); ++j) {
+                        if (card[j]->get_number() != result[j]->get_number()) {
+                            break;
+                        }
+                        if (j == card.size() - 1) {
+                            B.removeAt(i);
+                        }
+                    }
+                }
+                break;
+            }
+
+            count++;
         }
 
-    if (A_chosen.size() > B_chosen.size()){
+        // Jeśli nie udało się nic znaleźć w A
+        if (count == stop_loop_1) {
+            if (A_chosen.size() > B_chosen.size()) {
+                A_chosen.pop_front();
+            }
+            if (A_chosen.size() < B_chosen.size()) {
+                B_chosen.pop_front();
+            }
+            return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen};
+        }
+
+        int count2 = 0;
+        int stop_loop_2 = B.size();
+
+        // Szukaj odpowiedniej karty w B
+        while (count2 <= stop_loop_2) {
+            QVector<ImageItem*> cardB = select_least_counted_objects(B);
+
+            // Jeśli nie udało się znaleźć karty, kończ
+            if (cardB.size() == 0) {
+                if (A_chosen.size() > B_chosen.size()) {
+                    A_chosen.pop_front();
+                }
+                if (A_chosen.size() < B_chosen.size()) {
+                    B_chosen.pop_front();
+                }
+                return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen};
+            }
+
+            // Sprawdź, czy karta nie tworzy niedozwolonych par z wykluczonymi kartami z A
+            bool match_touples_2 = false;
+            QVector<QVector<ImageItem*>> touplesB = generateAllGroups(cardB, 2);
+            for (int i = 0; i < touplesB.size(); ++i) {
+                for (int j = 0; j < Excluded_A.size(); ++j) {
+                    if (touplesB[i][0]->get_number() == Excluded_A[j][0]->get_number() &&
+                        touplesB[i][1]->get_number() == Excluded_A[j][1]->get_number()) {
+                        match_touples_2 = true;
+                        break;
+                    }
+                }
+                if (match_touples_2)
+                    break;
+            }
+
+            // Jeśli karta jest poprawna
+            if (!match_touples_2) {
+                // Zwiększ liczniki użycia obrazków
+                for (auto& image : cardB) {
+                    (*image)++;
+                }
+
+                // Dodaj kartę do wybranych z B
+                B_chosen.append(cardB);
+
+                // Dodaj wygenerowane pary do wykluczonych z B
+                for (auto& touple : touplesB) { // TODO: Można zwiększyć wydajność sprawdzając czy touples już istnieją
+                    Excluded_B.append(touple);
+                }
+
+                // Usuń z A kartę odpowiadającą wybranej karcie z B
+                for (int i = 0; i < A.size(); ++i) {
+                    QVector<ImageItem*>& result = A[i];
+                    for (int j = 0; j < cardB.size(); ++j) {
+                        if (cardB[j]->get_number() != result[j]->get_number()) {
+                            break;
+                        }
+                        if (j == cardB.size() - 1) {
+                            A.removeAt(i);
+                            break;
+                        }
+                    }
+                }
+                break;
+            }
+
+            count2++;
+        }
+
+        // Jeśli nie udało się nic znaleźć w B
+        if (count2 == stop_loop_2) {
+            if (A_chosen.size() > B_chosen.size()) {
+                A_chosen.pop_front();
+            }
+            if (A_chosen.size() < B_chosen.size()) {
+                B_chosen.pop_front();
+            }
+            return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen}; // TUTAJ kończy się algorytm
+        }
+    }
+
+    // Na koniec upewnij się, że A_chosen i B_chosen są tej samej wielkości
+    if (A_chosen.size() > B_chosen.size()) {
         A_chosen.pop_front();
     }
-    if (A_chosen.size() < B_chosen.size()){
+    if (A_chosen.size() < B_chosen.size()) {
         B_chosen.pop_front();
     }
     return QVector<QVector<QVector<ImageItem*>>> {A_chosen, B_chosen};
-
 }
+
 
 void MainWindow::on_dodajdoB_clicked()
 
